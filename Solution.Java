@@ -1,0 +1,1 @@
+public Solution(){ public int solution(int var0,int var1){         return var0+var1;         }         }
