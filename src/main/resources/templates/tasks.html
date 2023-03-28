@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h2 th:text="${category.name}"></h2>
+    <p th:text="${category.description}"></p>
+</div>
+
+<div th:each="task: ${tasks}">
+    <a th:href="@{/taskSolution/{id}(id = ${task.id})}"><h5 th:text=" ${task.name}"></h5></a>
+</div>
+
+</body>
+</html>

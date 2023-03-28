@@ -17,10 +17,20 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
+
+    @Column(length = 600)
     private String description;
+//    @Column(length = 600)
     private String method;
 
-    @OneToMany
-    private List<Test> test;
+//    @Column(columnDefinition = "false")
+//    private boolean solved=false;
+
+    @OneToOne
+    private Test test;
+
+    @ManyToOne
+    private Category category;
 
 }

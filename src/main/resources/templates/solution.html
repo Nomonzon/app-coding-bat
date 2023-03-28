@@ -3,19 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!--    <script src="/challenge.js" type="text/javascript" charset="utf-8"></script>-->
+    <script src="https://codingbat.com/ace/theme-chrome.js"></script>
+    <script src="https://codingbat.com/ace/mode-java.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/ace/1.4.12/min/ace.js"
+            integrity="sha384-7mgacHROEXQo//tLkbWOsb8WcKO+cOvE3xBi1gDPrfdmvmxP3mIg5zLkabehE8he"
+            crossorigin="anonymous"></script>
 </head>
 <style>
-    input {
+    div {
         width: 400px;
         height: 500px;
+    }
 
+    textarea {
+        width: 500px;
+        height: 300px;
     }
 </style>
 
 <body>
-<form method="post" action="/submit">
-    <input type="text" autocomplete="off" class="form-control form-control-user" id="description" name="solution"/>
-    <button type="submit">Submit</button>
-</form>
+
+<div>
+    <h1 th:text="${task.category.name}"></h1>
+    <h1 th:text="${task.name}"></h1>
+    <p th:text="${task.description}"></p>
+
+    <p style="font-size: medium" th:text="${task.getTest().test.split(';')[0]}"></p>
+    <p style="font-size: medium" th:text="${task.getTest().test.split(';')[1]}"></p>
+    <p style="font-size: medium" th:text="${task.getTest().test.split(';')[2]}"></p>
+
+    <form method="post" th:action="@{/submit/{id}(id=${task.test.id})}">
+        <button type="submit">GO</button>
+        <textarea type="text" id="editor" class="form-control form-control-user"
+                  name="solution" th:text="${task.method}"></textarea>
+    </form>
+</div>
 </body>
 </html>

@@ -1,0 +1,10 @@
+insert into category(id, name, description, language_id) values(1, 'Warmup-1', 'Simple warmup problems to get started (solutions available).', 1);
+insert into category(id, name, description, language_id) values(2, 'Warmup-2', 'Medium warmup string/array loops (solutions available).', 1);
+insert into category(id, name, description, language_id) values(3, 'String-1', 'Basic string problems -- no loops.', 1);
+insert into category(id, name, description, language_id) values(4, 'Array-1', 'Basic array problems -- no loops.', 1);
+insert into category(id, name, description, language_id) values(5, 'Logic-1', 'Basic boolean logic puzzles -- if else && || !.', 1);
+insert into category(id, name, description, language_id) values(6, 'Logic-2', 'Medium boolean logic puzzles -- if else && || !.', 1);
+insert into category(id, name, description, language_id) values(7, 'String-2', 'Medium String problems -- 1 loop.', 1);
+insert into category(id, name, description, language_id) values(8, 'String-3', 'Harder String problems -- 2 loops.', 1);
+insert into category(id, name, description, language_id) values(9, 'Array-2', 'Medium array problems -- 1 loop.', 1);
+insert into category(id, name, description, language_id) values(10, 'Array-3', 'Harder array problems -- 2 loops, more complex logic.', 1);

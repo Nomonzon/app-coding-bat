@@ -10,22 +10,20 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class SolutionService {
 
 
-    public boolean evaluate(String code, String test) throws IOException {
+    public List<Boolean> evaluate(String code, String test) throws IOException {
 
         // Generate a test case
         String[] input = test.split(":")[0].split(",");
-        int arg1 = Integer.parseInt(input[0]);
-        int arg2 = Integer.parseInt(input[1]);
-        System.out.println(arg1);
-        System.out.println(arg2);
-
-        int expectedOutput = Integer.parseInt(test.split(":")[1]);
+        boolean arg1 = Boolean.parseBoolean(input[0]);
+        boolean arg2 = Boolean.parseBoolean(input[1]);
+        boolean expectedOutput = Boolean.parseBoolean(test.split(":")[1]);
 
 
         String filename = "Solution.java";
@@ -39,18 +37,25 @@ public class SolutionService {
 
         // Compile the user's code
         try {
+
             URLClassLoader clasLoader = URLClassLoader.newInstance(new URL[]{new File("").toURI().toURL()});
+
             Class<?> clazz = Class.forName("Solution", true, clasLoader);
-            Method method = clazz.getMethod("solution", int.class, int.class);
+            Method method = clazz.getMethod("sleepIn", boolean.class, int[].class);
 
             // Execute the test case
-            int result = (int) method.invoke(null, arg1, arg2);
-            System.out.println(result);
+            System.out.println(method.getReturnType());
+            System.out.println(Arrays.toString(method.getParameterTypes()));
+//            System.out.println(method.);
+            boolean result = (boolean) method.invoke(sourceFile, arg1, arg2);
+            System.out.println("result:" + (result == expectedOutput));
             // Return the evaluation result
-            return result == expectedOutput;
+            List<Boolean> list = new ArrayList<>();
+            list.add(result == expectedOutput);
+            list.add(result);
+            return list;
         } catch (Exception e) {
-            return false;
+            return new ArrayList<>();
         }
     }
-
 }

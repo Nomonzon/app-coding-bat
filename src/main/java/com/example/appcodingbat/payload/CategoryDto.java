@@ -1,31 +1,21 @@
-package com.example.appcodingbat.entity;
+package com.example.appcodingbat.payload;
 
-
+import com.example.appcodingbat.entity.Language;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Category {
+public class CategoryDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
-    @Column(length = 512)
     private String description;
 
-    @ManyToOne
-    public Language language;
-
-
+    public Long languageId;
 
 }

@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-
+<div th:each="lang: ${languages}">
+    <a th:href="@{/category/{id}(id=${lang.id})}" th:text="${lang.name}"></a>
+</div>
 </body>
 </html>
