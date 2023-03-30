@@ -1,5 +1,5 @@
 public class Solution{
-public static boolean sleepIn(boolean weekday, boolean vacation) {
-return false;
+public static int solution(int a, int b) {
+return a+b;
 }
 }

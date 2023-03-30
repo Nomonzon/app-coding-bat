@@ -1,5 +1,6 @@
 package com.example.appcodingbat.service;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import javax.tools.JavaCompiler;
@@ -10,52 +11,52 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class SolutionService {
 
 
-    public List<Boolean> evaluate(String code, String test) throws IOException {
+    @SneakyThrows
+    public List<Object> evaluate(String code, String test, String parameters) throws IOException {
 
-        // Generate a test case
+        String[] parameter = parameters.split(",");
         String[] input = test.split(":")[0].split(",");
-        boolean arg1 = Boolean.parseBoolean(input[0]);
-        boolean arg2 = Boolean.parseBoolean(input[1]);
-        boolean expectedOutput = Boolean.parseBoolean(test.split(":")[1]);
-
 
         String filename = "Solution.java";
         File sourceFile = new File(filename);
         java.nio.file.Files.write(sourceFile.toPath(), code.getBytes());
 
-        // Parse the user's code
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         compiler.run(null, null, null, filename);
+        Method method;
+        URLClassLoader clasLoader = URLClassLoader.newInstance(new URL[]{new File("").toURI().toURL()});
+        Class<?> clazz = Class.forName("Solution", true, clasLoader);
+        String expectedOutput = test.split(":")[1];
 
+        if (parameter[0].equals("Boolean") && parameter[1].equals("Boolean")) {
+            boolean arg1 = Boolean.parseBoolean(input[0]);
+            boolean arg2 = Boolean.parseBoolean(input[1]);
+            method = clazz.getMethod("solution", boolean.class, boolean.class);
+            String result = String.valueOf(method.invoke(sourceFile, arg1, arg2));
+            return checkResult(expectedOutput, result);
 
-        // Compile the user's code
-        try {
-
-            URLClassLoader clasLoader = URLClassLoader.newInstance(new URL[]{new File("").toURI().toURL()});
-
-            Class<?> clazz = Class.forName("Solution", true, clasLoader);
-            Method method = clazz.getMethod("sleepIn", boolean.class, int[].class);
-
-            // Execute the test case
-            System.out.println(method.getReturnType());
-            System.out.println(Arrays.toString(method.getParameterTypes()));
-//            System.out.println(method.);
-            boolean result = (boolean) method.invoke(sourceFile, arg1, arg2);
-            System.out.println("result:" + (result == expectedOutput));
-            // Return the evaluation result
-            List<Boolean> list = new ArrayList<>();
-            list.add(result == expectedOutput);
-            list.add(result);
-            return list;
-        } catch (Exception e) {
-            return new ArrayList<>();
+        } else {
+            int arg1 = Integer.parseInt(input[0]);
+            int arg2 = Integer.parseInt(input[1]);
+            method = clazz.getMethod("solution", int.class, int.class);
+            String result = String.valueOf(method.invoke(sourceFile, arg1, arg2));
+            return checkResult(expectedOutput, result);
         }
     }
+
+    public List<Object> checkResult(String exceptedResult, String result) {
+        List<Object> list = new ArrayList<>();
+        list.add(result.equals(exceptedResult));
+        list.add(result);
+        return list;
+    }
+
+
 }
+

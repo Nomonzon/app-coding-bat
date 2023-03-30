@@ -35,11 +35,11 @@ public class TestController {
     @PostMapping("/submit/{id}")
     public String solve(@PathVariable Long id, @RequestParam String solution, Model model) throws IOException {
         Optional<Test> testOptional = testRepo.findById(id);
-        List<List<Boolean>> list = new ArrayList<>();
+        List<List<Object>> list = new ArrayList<>();
         if (testOptional.isPresent()) {
             Test test = testOptional.get();
-            for (String s : test.getTest().split(";")) {
-                list.add(solutionService.evaluate(solution, s));
+            for (String answers : test.getTest().split(";")) {
+                list.add(solutionService.evaluate(solution, answers, test.getParameters()));
             }
             model.addAttribute("tests", test.getTest().split(";"));
             model.addAttribute("answers", list);
